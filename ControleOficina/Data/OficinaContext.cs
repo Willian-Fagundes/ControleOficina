@@ -15,5 +15,6 @@ namespace Oficina.Data
         }
 
         public DbSet<ControleOficina.Models.Carro> Carro { get; set; } = default!;
+        
     }
 }

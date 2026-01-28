@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ControleOficina")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6269a9fabfc0fe9da6992461f0732598999acd72")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8c5879e563f232f9e50780d9e149efd162bb082e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ControleOficina")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ControleOficina")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

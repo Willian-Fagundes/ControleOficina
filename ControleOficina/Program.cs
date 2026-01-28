@@ -2,6 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Oficina.Data;
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<OficinaContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("OficinaContext")));
+}
+else
+{
+    builder.Services.AddDbContext<OficinaContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ProductionOficinaContext")));
+}
+
 builder.Services.AddDbContext<OficinaContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("OficinaContext") ?? throw new InvalidOperationException("Connection string 'OficinaContext' not found.")));
 
