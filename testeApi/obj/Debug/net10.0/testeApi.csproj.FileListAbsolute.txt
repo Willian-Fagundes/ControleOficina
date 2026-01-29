@@ -1,0 +1,15 @@
+/workspaces/ControleOficina/testeApi/bin/Debug/net10.0/testeApi
+/workspaces/ControleOficina/testeApi/bin/Debug/net10.0/testeApi.deps.json
+/workspaces/ControleOficina/testeApi/bin/Debug/net10.0/testeApi.runtimeconfig.json
+/workspaces/ControleOficina/testeApi/bin/Debug/net10.0/testeApi.dll
+/workspaces/ControleOficina/testeApi/bin/Debug/net10.0/testeApi.pdb
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.AssemblyInfoInputs.cache
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.AssemblyInfo.cs
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.csproj.CoreCompileInputs.cache
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.sourcelink.json
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.dll
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/refint/testeApi.dll
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.pdb
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/testeApi.genruntimeconfig.cache
+/workspaces/ControleOficina/testeApi/obj/Debug/net10.0/ref/testeApi.dll

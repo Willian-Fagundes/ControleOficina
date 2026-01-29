@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Oficina.Data;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddHttpClient(); 
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<OficinaContext>(options =>
@@ -19,6 +19,8 @@ builder.Services.AddDbContext<OficinaContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 var app = builder.Build();
 

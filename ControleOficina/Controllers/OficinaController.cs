@@ -7,19 +7,83 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ControleOficina.Models;
 using Oficina.Data;
+using System.Net.Http;
+using System.Text.Json;
+
 
 namespace ControleOficina.Controllers
 {
     public class OficinaController : Controller
     {
         private readonly OficinaContext _context;
-
-        public OficinaController(OficinaContext context)
+        private readonly HttpClient _httpClient;
+        public OficinaController(HttpClient client, OficinaContext context)
         {
             _context = context;
+            _httpClient = client;
         }
 
         // GET: Oficina
+
+        [HttpGet]
+        public async Task<IActionResult> GetMarcas(string tipoVeiculo)
+        {
+            // A Brasil API espera: carros, motos ou caminhoes
+            if (string.IsNullOrEmpty(tipoVeiculo)) tipoVeiculo = "carros";
+
+            string url = $"https://brasilapi.com.br/api/fipe/marcas/v1/{tipoVeiculo}";
+
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    
+                    // Usando System.Text.Json para desserializar
+                    var marcas = JsonSerializer.Deserialize<List<MarcaFipe>>(jsonString, new JsonSerializerOptions 
+                    { 
+                        PropertyNameCaseInsensitive = true 
+                    });
+
+                    return Json(marcas);
+                }
+                
+                return BadRequest("Erro ao buscar marcas na API externa.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Erro interno: {ex.Message}");
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetModelos(string tipoVeiculo, long codigoMarca)
+        {
+            if (string.IsNullOrEmpty(tipoVeiculo)) tipoVeiculo = "carros";
+            string url = $"https://brasilapi.com.br/api/fipe/veiculos/v1/{tipoVeiculo}/{codigoMarca}";
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    // The Brasil API returns an object containing a "modelos" list
+                    var data = JsonSerializer.Deserialize<FipeModelosResponse>(jsonString, new JsonSerializerOptions 
+                    { 
+                        PropertyNameCaseInsensitive = true 
+                    });
+
+                    return Json(data.Modelos);
+                }
+                return BadRequest("Erro ao buscar modelos.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.Carro.ToListAsync());

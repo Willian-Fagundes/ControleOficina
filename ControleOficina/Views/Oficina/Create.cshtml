@@ -4,6 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
+
+
 <h1>Create</h1>
 
 <h4>Carro</h4>
@@ -14,12 +16,19 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Marca" class="control-label"></label>
-                <input asp-for="Marca" class="form-control" />
-                <span asp-validation-for="Marca" class="text-danger"></span>
+                <select id="select-marcas" class="form-control">
+                    <option value="">Selecione uma marca...</option>
+                </select>
+                <!-- Hidden input to save the NAME of the brand if your Model requires a string -->
+                <input type="hidden" asp-for="Marca" id="hidden-marca-nome" />
             </div>
+
+            <!-- Select de Modelo -->
             <div class="form-group">
                 <label asp-for="Modelo" class="control-label"></label>
-                <input asp-for="Modelo" class="form-control" />
+                <select asp-for="Modelo" id="select-modelos" class="form-control" disabled>
+                    <option value="">Selecione a marca primeiro...</option>
+                </select>
                 <span asp-validation-for="Modelo" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,4 +54,47 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+      <script>
+        const selectMarcas = document.getElementById("select-marcas");
+        const selectModelos = document.getElementById("select-modelos");
+        const hiddenMarcaNome = document.getElementById("hidden-marca-nome");
+
+        // 1. Load Brands
+        fetch('/Oficina/GetMarcas?tipoVeiculo=carros')
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(m => {
+                    let opt = new Option(m.nome, m.valor); // Text: Name, Value: ID
+                    selectMarcas.add(opt);
+                });
+            });
+
+        // 2. Load Models on Brand Change
+        selectMarcas.addEventListener("change", function () {
+            const codigoMarca = this.value;
+            
+            // Update hidden input with text name for database saving
+            hiddenMarcaNome.value = this.options[this.selectedIndex].text;
+
+            // Reset and disable Models select
+            selectModelos.innerHTML = '<option value="">Carregando...</option>';
+            selectModelos.disabled = true;
+
+            if (!codigoMarca) return;
+
+            fetch(`/Oficina/GetModelos?tipoVeiculo=carros&codigoMarca=${codigoMarca}`)
+                .then(res => res.json())
+                .then(data => {
+                    selectModelos.innerHTML = '<option value="">Selecione um modelo...</option>';
+                    data.forEach(mod => {
+                        let opt = new Option(mod.nome, mod.nome); // Saving name as value
+                        selectModelos.add(opt);
+                    });
+                    selectModelos.disabled = false;
+                })
+                .catch(() => {
+                    selectModelos.innerHTML = '<option value="">Erro ao carregar</option>';
+                });
+        });
+    </script>
 }
